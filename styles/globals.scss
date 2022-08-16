@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.welcome-img {
+  background-image: url(/assets/images/myaccount-banner.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.react-paginate {
+  display: flex;
+  justify-content: center;
+  transform: translateX(50%);
+  @media screen and (max-width: 1280px) {
+    transform: translateX(0);
+  }
+  li {
+    &.selected {
+      a {
+        background: #107cec;
+        color: white;
+        border-radius: 6px;
+      }
+    }
+    &.disabled {
+      a {
+        cursor: text;
+        opacity: 0.5;
+
+        &:hover {
+          border-radius: 6px;
+          color: #107cec;
+          background-color: white;
+        }
+      }
+    }
+
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border-radius: 6px;
+    color: #107cec;
+    background-color: white;
+    margin: 0 6px;
+    a {
+      display: block;
+      line-height: 40px;
+      &:hover {
+        border-radius: 6px;
+        color: white;
+        background-color: #107cec;
+      }
+    }
+  }
+  li:first-child {
+    width: auto;
+    margin: 0;
+    margin-right: 20px;
+    min-width: 90px;
+  }
+
+  li:last-child {
+    width: auto;
+    margin: 0;
+    margin-left: 20px;
+    min-width: 90px;
+  }
+}
+
+.sidebar-item:hover .sidebar-icon path {
+  stroke: #107cec;
+}
