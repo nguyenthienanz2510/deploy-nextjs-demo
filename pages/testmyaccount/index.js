@@ -4,16 +4,27 @@ import Image from "next/image";
 import moment from "moment";
 import ReactPaginate from "react-paginate";
 import Link from "next/link";
+import { withAuthenticator } from "@aws-amplify/ui-react";
+import awsExports from "../../aws-exports";
+import Amplify, { API, withSSRContext } from "aws-amplify";
+
+Amplify.configure({ ...awsExports, ssr: true });
 
 const Myaccount = ({ json }) => {
-  const items = json?.isSuccessful == "true" && json.orderInsurance;
+  // const items = json?.isSuccessful == "true" && json.orderInsurance;
+  const items = json;
 
   console.log("myaccount initialize: ", items);
 
   function Items({ currentItems }) {
     return (
       <>
-        {currentItems &&
+        <ul>
+          {items.map((item, index) => {
+            return <li key={index}>{item.name}</li>;
+          })}
+        </ul>
+        {/* {currentItems &&
           currentItems.map((item, index) => {
             return (
               <div key={index} className="h-[154px] bg-white rounded-lg">
@@ -65,7 +76,7 @@ const Myaccount = ({ json }) => {
                 </div>
               </div>
             );
-          })}
+          })} */}
       </>
     );
   }
@@ -128,13 +139,16 @@ const Myaccount = ({ json }) => {
   );
 };
 
-// export async function getServerSideProps(context) {
-//   if (typeof window != "undefined") {
-//     // this is being called from the backend, no need to show anything
-//     let json = null;
-//     return { props: { json } };
-//   }
+export async function getServerSideProps({ req }) {
+  const res = await fetch("https://62fbaabfe4bcaf53518aad31.mockapi.io/player");
+  const json = await res.json();
 
+  // console.log(json);
+
+  return { props: { json } };
+}
+
+// Myaccount.getInitialProps = async (ctx) => {
 //   const res = await fetch(
 //     "https://apitest.travelner.com/frontend/test/myacount",
 //     {
@@ -153,30 +167,8 @@ const Myaccount = ({ json }) => {
 
 //   console.log(json);
 
-//   return { props: { json } };
-// }
-
-Myaccount.getInitialProps = async (ctx) => {
-  const res = await fetch(
-    "https://apitest.travelner.com/frontend/test/myacount",
-    {
-      method: "POST",
-      body: JSON.stringify({
-        userId: "235",
-        type: "insurance",
-        language: "en",
-        locationCode: "gx",
-        offset: 0,
-        limit: 10,
-      }),
-    }
-  );
-  const json = await res.json();
-
-  console.log(json);
-
-  return { json };
-};
+//   return { json };
+// };
 
 // export async function getStaticProps(context) {
 //   const res = await fetch(
